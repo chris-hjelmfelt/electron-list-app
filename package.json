@@ -1,0 +1,14 @@
+{
+  "name": "electron-list-maker",
+  "version": "1.0.0",
+  "description": "make a list in a desktop application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Chris H",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^13.2.2"
+  }
+}
