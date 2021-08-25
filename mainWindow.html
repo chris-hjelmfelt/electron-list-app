@@ -5,5 +5,32 @@
 </head>
 <body>
   <h2>My List</h2>
+  <ul></ul>
+
+
+  <script>
+    const {ipcRenderer} = require('electron');
+    const ul = document.querySelector('ul');
+
+    // Add an item
+    ipcRenderer.on('item:add', function(e, item) {
+      const li = document.createElement('li');
+      const itemText = document.createTextNode(item);
+      li.appendChild(itemText);
+      ul.appendChild(li);
+    });
+
+    // Clear all items
+    ipcRenderer.on('item:clear', function(e) {
+      ul.innerHTML = "";
+    });
+
+    // Delete an item
+    ul.addEventListener('dblclick' , removeItem);
+    
+    function removeItem(e) {
+      e.target.remove();
+    }
+  </script>
 </body>
 </html>
