@@ -2,11 +2,37 @@
 <html lang="en">
 <head>
   <title>My List</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <style>
+    #top-btn { margin-left: 10px; }
+    #popover { border: 1px solid black; background-color: white; position: absolute; top: 10px; left: 140px; padding: 40px; display: none;}
+    #instructions { position: absolute; left: 10px; bottom: 5px; }
+  </style>
 </head>
 <body>
-  <h2>My List</h2>
-  <ul></ul>
-
+  <div id="app">
+    <nav>
+      <div class="nav-wrapper">
+        <a href="" class="brand-logo center">My List</a>
+        <button id="top-btn" onclick="openDiv()">More</button>  
+      </div>      
+    </nav>
+  
+    <ul></ul>
+  
+    <div id="instructions"><p>To add an item go to file menu "Add Item", to delete the item double click on it.</p></div>
+    <div id="popover">
+      <h4>Things that help when you are stuck</h4>
+      <ul>
+        <li>Start your day with something easy but productive</li>
+        <li>Do hard things before you use up all your energy</li>        
+        <li>Do these things while procrastinating something even harder</li>
+        <li>Get more exercise</li>
+        <li>Drink more water</li>
+      </ul>
+    </div>
+  </div>
+  
 
   <script>
     const {ipcRenderer} = require('electron');
@@ -14,15 +40,18 @@
 
     // Add an item
     ipcRenderer.on('item:add', function(e, item) {
+      ul.className = "collection";
       const li = document.createElement('li');
+      li.className = "collection-item";
       const itemText = document.createTextNode(item);
       li.appendChild(itemText);
-      ul.appendChild(li);
+      ul.appendChild(li);      
     });
 
     // Clear all items
     ipcRenderer.on('item:clear', function(e) {
       ul.innerHTML = "";
+      ul.className = "";
     });
 
     // Delete an item
@@ -30,6 +59,18 @@
     
     function removeItem(e) {
       e.target.remove();
+      if (ul.children.length == 0)
+      ul.className = "";
+    }
+
+    function openDiv() {
+      let divStyle = document.getElementById('popover').style
+      if (divStyle.display == "block") {
+        document.getElementById('popover').style.display = "none";
+      } else {
+        document.getElementById('popover').style.display = "block";
+      }   
+      createAddWindow();
     }
   </script>
 </body>

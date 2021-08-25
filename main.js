@@ -1,5 +1,8 @@
 const {app, BrowserWindow, Menu, ipcMain} = require('electron');
 
+//Set ENV
+//process.env.NODE_ENV = 'production';
+
 let mainWindow;
 let addWindow;
 
@@ -42,14 +45,14 @@ function createAddWindow() {
   addWindow.on('close', function() {
     addWindow = null;
   });
-}
+};
 
 // catch item add
 ipcMain.on('item:add', function(e, item) {
-  console.log(item)
   mainWindow.webContents.send('item:add', item);
   addWindow.close();
-})
+});
+
 // Create menu template
 const mainMenuTemplate = [
   {
@@ -99,5 +102,5 @@ if(process.env.NODE_ENV !== 'production') {
         role: 'reload'
       }
     ]
-  })
+  });
 }
